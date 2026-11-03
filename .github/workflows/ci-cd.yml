@@ -1,0 +1,96 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  continuous-integration:
+    name: Continuous Integration
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Validate application and Docker files
+        shell: powershell
+        run: |
+          $requiredFiles = @("index.html", "style.css", "Dockerfile")
+          foreach ($file in $requiredFiles) {
+            if (-not (Test-Path $file -PathType Leaf)) {
+              throw "Required application file is missing: $file"
+            }
+          }
+
+          $html = Get-Content "index.html" -Raw
+          if ($html -notmatch '(?is)<title>[^<]+</title>') {
+            throw "The application must have a non-empty page title."
+          }
+          if ($html -notmatch '(?is)<link\s+rel="stylesheet"\s+href="style\.css"\s*/?>') {
+            throw "The application must load style.css."
+          }
+          if ($html -notmatch '(?is)<h1[^>]*>[^<]+</h1>') {
+            throw "The application must have a visible heading."
+          }
+
+          $dockerfile = Get-Content "Dockerfile" -Raw
+          foreach ($asset in @("index.html", "style.css")) {
+            if ($dockerfile -notmatch "(?m)^COPY\s+$asset\s+") {
+              throw "Dockerfile must copy $asset into the application image."
+            }
+          }
+
+      - name: Verify Docker build context is restricted
+        shell: powershell
+        run: |
+          $dockerignore = Get-Content ".dockerignore" -Raw
+          foreach ($entry in @("**", "!Dockerfile", "!index.html", "!style.css")) {
+            if ($dockerignore -notmatch [regex]::Escape($entry)) {
+              throw "Docker build context must exclude unrelated files and include $entry."
+            }
+          }
+
+  continuous-deployment:
+    name: Continuous Deployment
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: continuous-integration
+    runs-on: [self-hosted, Windows, X64]
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v4
+
+      - name: Build application image
+        run: docker build -t "ci-cd-lab:${{ github.sha }}" .
+
+      - name: Remove previous container
+        run: docker rm -f ci-cd-lab
+        continue-on-error: true
+
+      - name: Start updated container
+        run: docker run -d --name ci-cd-lab --restart unless-stopped -p 8100:80 "ci-cd-lab:${{ github.sha }}"
+
+      - name: Verify application
+        shell: powershell
+        run: |
+          $success = $false
+          for ($i = 1; $i -le 15; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:8100/" -UseBasicParsing -TimeoutSec 2
+              if ($response.StatusCode -eq 200) {
+                $success = $true
+                break
+              }
+            } catch {
+              Start-Sleep -Seconds 2
+            }
+          }
+          if (-not $success) {
+            docker logs ci-cd-lab
+            exit 1
+          }

@@ -1,16 +1,33 @@
-  body {
-    @apply font-sans antialiased;
-    background: var(--bg-gradient-start);
-    color: var(--text-color);
+:root {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #172033;
+    background: #f1f5f9;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
     min-height: 100vh;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
-  }
-  .label {
-    @apply block text-sm font-semibold mb-2;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+    margin: 0;
+    place-items: center;
+}
+
+main {
+    width: min(90%, 42rem);
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 1rem 2.5rem rgb(23 32 51 / 10%);
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.version {
+    color: #475569;
+}
