@@ -1,0 +1,243 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f3f6fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --ion-color-primary: #4b5ee8;
+  --ion-color-primary-rgb: 75, 94, 232;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #424fcc;
+  --ion-color-primary-tint: #5d6dec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: #f3f6fb;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --border-color: #e6eaf2;
+}
+
+ion-title {
+  font-weight: 700;
+}
+
+ion-content {
+  --background: #f3f6fb;
+}
+
+.page-content {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.intro {
+  margin: 1rem 0 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.6rem;
+  color: #5967d9;
+  font-size: 0.73rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+
+.intro h1 {
+  max-width: 620px;
+  margin: 0;
+  color: #182238;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.subtitle {
+  max-width: 560px;
+  margin: 1rem 0 0;
+  color: #667085;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.panel {
+  margin: 0 0 1.5rem;
+  border: 1px solid #e8ebf3;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgb(22 34 56 / 5%);
+}
+
+.panel ion-card-title {
+  color: #182238;
+  font-size: 1.2rem;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.form ion-input,
+.form ion-textarea {
+  --background: #ffffff;
+  --border-color: #dce1ec;
+  --border-radius: 10px;
+  --highlight-color-focused: #4b5ee8;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--background);
+}
+
+.primary-button {
+  margin: 0;
+  --border-radius: 10px;
+  font-weight: 650;
+}
+
+.hint {
+  margin: 0.7rem 0 0.2rem;
+  color: #667085;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.feedback {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid;
+  border-radius: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.error {
+  border-color: #f2c5c5;
+  background: #fff3f3;
+  color: #a52c2c;
+}
+
+.success {
+  border-color: #b7dfc8;
+  background: #effaf3;
+  color: #247044;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+  color: #667085;
+}
+
+.account-bar,
+.section-heading,
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.account-bar {
+  margin: 0 0 1rem;
+  color: #667085;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.form-actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.records-section {
+  margin-top: 2rem;
+}
+
+.section-heading {
+  margin-bottom: 0.8rem;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #182238;
+  font-size: 1.4rem;
+}
+
+.record-count {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #e8ebff;
+  color: #4352c6;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.record-list {
+  overflow: hidden;
+  border: 1px solid #e8ebf3;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.record-list ion-item {
+  --padding-start: 1rem;
+  --inner-padding-end: 0.5rem;
+  --min-height: 76px;
+}
+
+.record-list h3 {
+  margin-bottom: 0.35rem;
+  color: #182238;
+  font-weight: 650;
+}
+
+.record-list p {
+  color: #667085;
+  line-height: 1.45;
+  white-space: normal;
+}
+
+.record-action-button {
+  font-size: 0.8rem;
+}
+
+.empty-state {
+  padding: 1.4rem;
+  border: 1px dashed #cbd2e0;
+  border-radius: 12px;
+  color: #667085;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .page-content {
+    padding-top: 1.25rem;
+  }
+
+  .record-list ion-item {
+    --inner-padding-end: 0.25rem;
+  }
+
+}
